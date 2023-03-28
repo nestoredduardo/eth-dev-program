@@ -44,7 +44,6 @@ contract PokemonFactory {
 
     function createPokemon(
         string memory _name,
-        uint _id,
         Skill[] memory _skills,
         PokemonType[] memory _pokemonType
     ) public {
@@ -52,7 +51,6 @@ contract PokemonFactory {
             ownerPokemonCount[msg.sender] == 0,
             "You already have a pokemon!"
         );
-        require(_id > 0, "Id must be greater than 0");
         require(
             bytes(_name).length > 2,
             "Name must be at least 3 characters long"
@@ -63,17 +61,14 @@ contract PokemonFactory {
             "Pokemon must have at least 1 pokemon type"
         );
 
-        Pokemon storage newPokemon = pokemons[_id];
-        newPokemon.id = _id;
+        Pokemon storage newPokemon = pokemons.push();
+
+        newPokemon.id = pokemons.length - 1;
         newPokemon.name = _name;
+        newPokemon.skills = _skills;
+        newPokemon.pokemonType = _pokemonType;
 
-        for (uint i = 0; i < _skills.length; i++) {
-            newPokemon.skills[i] = _skills[i];
-        }
-
-        for (uint i = 0; i < _pokemonType.length; i++) {
-            newPokemon.pokemonType[i] = _pokemonType[i];
-        }
+        uint _id = pokemons.length - 1;
 
         pokemonToOwner[_id] = msg.sender;
         ownerPokemonCount[msg.sender]++;

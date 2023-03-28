@@ -1,7 +1,10 @@
-require('@nomicfoundation/hardhat-toolbox');
-require('dotenv').config();
+import dotenv from 'dotenv';
+import '@nomicfoundation/hardhat-toolbox';
+import { HardhatUserConfig } from 'hardhat/types';
 
-module.exports = {
+dotenv.config();
+
+const config: HardhatUserConfig = {
   solidity: '0.8.9',
   /* networks: {
 		hardhat: {},
@@ -18,3 +21,5 @@ module.exports = {
 		apiKey: `${process.env.ETHERSCAN_API_KEY}`
 	} */
 };
+
+export default config;
